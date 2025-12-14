@@ -6,9 +6,9 @@ async function loadStats() {
         const response = await fetch('/api/stats');
         const data = await response.json();
         document.getElementById('stats').innerHTML = `
-            📊 Chunk Size: ${data.chunk_size} | 
-            🔄 Overlap Ratio: ${data.overlap_ratio} | 
-            🎯 Top K: ${data.top_k}
+            Chunk Size: ${data.chunk_size} | 
+            Overlap Ratio: ${data.overlap_ratio} | 
+            Top K: ${data.top_k}
         `;
     } catch (error) {
         document.getElementById('stats').innerHTML = '❌ Failed to load stats';
