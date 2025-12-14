@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TED RAG Query Interface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎤 TED Talk RAG System</h1>
+            <p>Ask questions about TED talks and get AI-powered answers</p>
+        </header>
+
+        <div class="stats-bar" id="stats">
+            <span>Loading stats...</span>
+        </div>
+
+        <div class="query-section">
+            <textarea
+                id="question"
+                placeholder="Ask a question about TED talks... (e.g., 'What are the main topics discussed in TED talks about AI?')"
+                rows="3"
+            ></textarea>
+            <button id="submit-btn" onclick="askQuestion()">
+                <span id="btn-text">Ask Question</span>
+                <span id="spinner" class="spinner" style="display: none;">⏳</span>
+            </button>
+        </div>
+
+        <div id="results" class="results" style="display: none;">
+            <div class="response-section">
+                <h2>📝 Response</h2>
+                <div id="response" class="response-content"></div>
+            </div>
+
+            <div class="context-section">
+                <h3>📚 Retrieved Context</h3>
+                <div id="context" class="context-content"></div>
+            </div>
+
+            <div class="prompt-section">
+                <h3>🔧 Augmented Prompts</h3>
+                <div class="prompt-container">
+                    <div class="prompt-block">
+                        <h4>System Prompt:</h4>
+                        <pre id="system-prompt"></pre>
+                    </div>
+                    <div class="prompt-block">
+                        <h4>User Prompt:</h4>
+                        <pre id="user-prompt"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
