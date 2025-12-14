@@ -1,8 +1,7 @@
 fastapi
 uvicorn[standard]
 pandas
-pinecone-client==2.2.4
+pinecone
 python-dotenv
 requests
-tiktoken
 pydantic
