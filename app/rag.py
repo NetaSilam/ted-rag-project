@@ -177,23 +177,20 @@ def retrieve(query, top_k=15):
 
 CATEGORY_INSTRUCTIONS = {
     "FACT": (
-        "Return a single TED talk that matches the criteria. "
+        "Return a single, specific entity or fact based on semantic criteria within the corpus. "
         "Provide only the required factual fields explicitly requested. "
-        "Be concise and direct."
     ),
     "MULTI_LIST": (
-        "Return multiple distinct TED talks as requested. "
-        "Provide ONLY the list in the exact format requested (e.g., numbered list, bullet points). "
-        "Do NOT include explanations, justifications, or additional commentary. "
-        "Return only the talk titles or information explicitly requested. "
+        "Return multiple distinct TED talks titles as requested. "
+        "Provide the list in the exact format requested (e.g., numbered list, bullet points). "
         "Ensure each result is a different talk."
     ),
     "SUMMARY": (
-        "Identify one relevant TED talk and provide a concise summary of its key idea "
+        "Identify one relevant TED talk and generate a concise summary of its key idea "
         "based only on the retrieved transcript content."
     ),
     "RECOMMENDATION": (
-        "Recommend one TED talk and justify the recommendation "
+        "Recommend one relevant TED talk and justify the recommendation "
         "using evidence from the retrieved context."
     ),
 }
