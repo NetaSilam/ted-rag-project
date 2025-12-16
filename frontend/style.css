@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     background: white;
     border-radius: 20px;
@@ -22,7 +22,7 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 header h1 {
@@ -36,59 +36,98 @@ header p {
     font-size: 1.1em;
 }
 
-.stats-bar {
+.endpoint-section {
+    margin-bottom: 40px;
+    padding: 20px;
     background: #f8f9fa;
-    padding: 15px;
     border-radius: 10px;
-    margin-bottom: 30px;
-    text-align: center;
-    font-size: 0.9em;
-    color: #555;
+    border-left: 5px solid #667eea;
 }
 
-.query-section {
-    margin-bottom: 30px;
+.endpoint-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-#question {
-    width: 100%;
-    padding: 15px;
+.method-btn {
+    padding: 10px 20px;
     font-size: 1em;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    resize: vertical;
-    font-family: inherit;
-    margin-bottom: 15px;
-}
-
-#question:focus {
-    outline: none;
-    border-color: #667eea;
-}
-
-#submit-btn {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.1em;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
     font-weight: bold;
-    transition: transform 0.2s;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: 'Courier New', monospace;
+    min-width: 80px;
 }
 
-#submit-btn:hover {
+.method-btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-#submit-btn:disabled {
+.method-btn:active {
+    transform: translateY(0);
+}
+
+.method-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-.spinner {
+.get-btn {
+    background: #61affe;
+    color: white;
+}
+
+.get-btn:hover {
+    background: #4a9ee5;
+}
+
+.post-btn {
+    background: #49cc90;
+    color: white;
+}
+
+.post-btn:hover {
+    background: #3ab57a;
+}
+
+.endpoint-path {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    color: #333;
+    font-weight: bold;
+}
+
+.endpoint-section h3 {
+    color: #555;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+#json-input {
+    width: 100%;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    background: #2d2d2d;
+    color: #d4d4d4;
+    margin-bottom: 15px;
+}
+
+#json-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+#spinner {
     display: inline-block;
     animation: spin 1s linear infinite;
 }
@@ -98,84 +137,20 @@ header p {
     to { transform: rotate(360deg); }
 }
 
-.results {
-    margin-top: 30px;
-}
-
-.response-section, .context-section, .prompt-section {
-    margin-bottom: 30px;
-}
-
-.response-section h2, .context-section h3, .prompt-section h3 {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.response-content {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    line-height: 1.6;
-    font-size: 1.05em;
-    white-space: pre-wrap;
-}
-
-.context-content {
-    display: grid;
-    gap: 15px;
-}
-
-.context-item {
-    background: #fff9e6;
-    padding: 15px;
-    border-left: 4px solid #ffc107;
-    border-radius: 5px;
-}
-
-.context-item strong {
-    display: block;
-    margin-bottom: 8px;
-    color: #f57c00;
-    font-size: 1.05em;
-}
-
-.context-meta {
-    margin-top: 5px;
-    margin-bottom: 10px;
-    color: #666;
-    font-size: 0.9em;
-}
-
-.context-chunk {
-    margin-top: 10px;
-    line-height: 1.5;
-}
-
-.prompt-container {
-    display: grid;
-    gap: 20px;
-}
-
-.prompt-block {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.prompt-block h4 {
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.prompt-block pre {
+.json-output {
     background: #2d2d2d;
-    color: #f8f8f2;
-    padding: 15px;
-    border-radius: 5px;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 8px;
     overflow-x: auto;
     white-space: pre-wrap;
     word-wrap: break-word;
-    line-height: 1.5;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    line-height: 1.6;
+    border: 2px solid #444;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 @media (max-width: 768px) {
@@ -185,5 +160,14 @@ header p {
 
     header h1 {
         font-size: 1.8em;
+    }
+
+    .endpoint-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .method-btn {
+        width: 100%;
     }
 }

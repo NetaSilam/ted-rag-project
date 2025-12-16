@@ -3,56 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TED RAG Query Interface</title>
+    <title>TED RAG API</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>TED Talk RAG System</h1>
-            <p>Ask questions about TED talks and get AI-powered answers</p>
+            <h1>Neta Silam's TED RAG API</h1>
+            <p>Retrieval-Augmented Generation for TED Talks</p>
         </header>
 
-        <div class="stats-bar" id="stats">
-            <span>Loading stats...</span>
+        <!-- Stats Endpoint -->
+        <div class="endpoint-section">
+            <div class="endpoint-header">
+                <button class="method-btn get-btn" onclick="loadStats()">GET</button>
+                <span class="endpoint-path">/api/stats</span>
+            </div>
+            <pre id="stats-output" class="json-output">Click GET button to test...</pre>
         </div>
 
-        <div class="query-section">
-            <textarea
-                id="question"
-                placeholder="Ask a question about TED talks... (e.g., 'What are the main topics discussed in TED talks about AI?')"
-                rows="3"
-            ></textarea>
-            <button id="submit-btn" onclick="askQuestion()">
-                <span id="btn-text">Ask Question</span>
-                <span id="spinner" class="spinner" style="display: none;">⏳</span>
-            </button>
-        </div>
-
-        <div id="results" class="results" style="display: none;">
-            <div class="response-section">
-                <h2>Response</h2>
-                <div id="response" class="response-content"></div>
+        <!-- Prompt Endpoint -->
+        <div class="endpoint-section">
+            <div class="endpoint-header">
+                <button class="method-btn post-btn" onclick="askQuestion()">
+                    <span id="btn-text">POST</span>
+                    <span id="spinner" style="display: none;">⏳</span>
+                </button>
+                <span class="endpoint-path">/api/prompt</span>
             </div>
-
-            <div class="context-section">
-                <h3>Retrieved Context</h3>
-                <div id="context" class="context-content"></div>
-            </div>
-
-            <div class="prompt-section">
-                <h3>🔧 Augmented Prompts</h3>
-                <div class="prompt-container">
-                    <div class="prompt-block">
-                        <h4>System Prompt:</h4>
-                        <pre id="system-prompt"></pre>
-                    </div>
-                    <div class="prompt-block">
-                        <h4>User Prompt:</h4>
-                        <pre id="user-prompt"></pre>
-                    </div>
-                </div>
-            </div>
+            <h3>Input (JSON):</h3>
+            <textarea id="json-input" rows="4">{
+  "question": "Which TED talk focuses on education or learning? Return a list of exactly 3 talk titles."
+}</textarea>
+            <h3>Output (JSON):</h3>
+            <pre id="json-output" class="json-output">Click POST button to send request...</pre>
         </div>
     </div>
 

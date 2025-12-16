@@ -1,31 +1,8 @@
-from rag import build_embeddings, index
+from rag import build_embeddings
 
-print("Starting embedding process...")
+print("Starting embedding process for the full dataset...")
 
-# Get current stats
-try:
-    stats = index.describe_index_stats()
-    print(f"Current index stats: {stats}")
+# Embed all TED talks
+build_embeddings()  # No subset_size means full dataset
 
-    namespaces = stats.get('namespaces', {})
-
-    if namespaces:
-        # Delete from each namespace
-        for namespace in namespaces.keys():
-            print(f"Deleting from namespace: '{namespace}'")
-            index.delete(delete_all=True, namespace=namespace)
-            print(f"✓ Deleted vectors from namespace: '{namespace}'")
-    else:
-        # Delete from default namespace
-        print("Deleting from default namespace...")
-        index.delete(delete_all=True, namespace="")
-        print("✓ Deleted vectors from default namespace")
-
-except Exception as e:
-    print(f"Could not delete: {e}")
-    print("Continuing anyway...")
-
-# Embed 50 talks
-build_embeddings(subset_size=50)
-
-print("Embedding complete! Pinecone is ready.")
+print("Embedding complete! Pinecone is now ready.")

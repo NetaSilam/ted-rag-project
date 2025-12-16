@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from rag import answer_question
+from app.rag import answer_question
 
 app = FastAPI()
 
@@ -22,7 +22,7 @@ class Question(BaseModel):
 
 @app.get("/")
 def root():
-    return {"message": "TED RAG API is running", "status": "healthy"}
+    return {"message": "THIS IS A NEW DEPLOY", "status": "ok"}
 
 
 @app.post("/api/prompt")
@@ -44,6 +44,13 @@ def get_stats():
         "chunk_size": 1024,
         "overlap_ratio": 0.2,
         "top_k": 15
+    }
+
+
+@app.get("/__version")
+def version():
+    return {
+        "version": "2025-01-12-category-debug-v3"
     }
 
 

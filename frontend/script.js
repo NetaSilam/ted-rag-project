@@ -1,45 +1,60 @@
 // Load stats on page load
-document.addEventListener('DOMContentLoaded', loadStats);
+document.addEventListener('DOMContentLoaded', () => {
+    // Don't auto-load, wait for user to click GET button
+});
 
 async function loadStats() {
+    const outputEl = document.getElementById('stats-output');
+
     try {
-        const response = await fetch('/api/stats');
+        outputEl.textContent = 'Loading...';
+
+        const response = await fetch('https://ted-rag-project-production.up.railway.app/api/stats');
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
         const data = await response.json();
-        document.getElementById('stats').innerHTML = `
-            Chunk Size: ${data.chunk_size} | 
-            Overlap Ratio: ${data.overlap_ratio} | 
-            Top K: ${data.top_k}
-        `;
+
+        // Display formatted JSON
+        outputEl.textContent = JSON.stringify(data, null, 2);
+
     } catch (error) {
-        document.getElementById('stats').innerHTML = '❌ Failed to load stats';
         console.error('Stats error:', error);
+        outputEl.textContent = `Error: ${error.message}`;
     }
 }
 
 async function askQuestion() {
-    const question = document.getElementById('question').value.trim();
-
-    if (!question) {
-        alert('Please enter a question!');
-        return;
-    }
-
-    // Show loading state
-    const btn = document.getElementById('submit-btn');
+    const inputEl = document.getElementById('json-input');
+    const outputEl = document.getElementById('json-output');
+    const btn = document.querySelector('.post-btn');
     const btnText = document.getElementById('btn-text');
     const spinner = document.getElementById('spinner');
 
-    btn.disabled = true;
-    btnText.style.display = 'none';
-    spinner.style.display = 'inline-block';
-
     try {
-        const response = await fetch('/api/prompt', {
+        // Parse input JSON
+        const inputJson = JSON.parse(inputEl.value);
+
+        if (!inputJson.question) {
+            alert('Input JSON must contain a "question" field');
+            return;
+        }
+
+        // Show loading state
+        btn.disabled = true;
+        btnText.style.display = 'none';
+        spinner.style.display = 'inline-block';
+        outputEl.textContent = 'Sending request...';
+
+        // Make request
+        const response = await fetch('https://ted-rag-project-production.up.railway.app/api/prompt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ question: question })
+            body: JSON.stringify(inputJson)
         });
 
         if (!response.ok) {
@@ -47,9 +62,18 @@ async function askQuestion() {
         }
 
         const data = await response.json();
-        displayResults(data);
+
+        // Display formatted JSON output
+        outputEl.textContent = JSON.stringify(data, null, 2);
+
     } catch (error) {
-        alert('Error: ' + error.message);
+        if (error instanceof SyntaxError) {
+            alert('Invalid JSON input. Please check your JSON syntax.');
+            outputEl.textContent = 'Error: Invalid JSON input';
+        } else {
+            alert('Error: ' + error.message);
+            outputEl.textContent = `Error: ${error.message}`;
+        }
         console.error('Error:', error);
     } finally {
         // Reset button state
@@ -58,40 +82,3 @@ async function askQuestion() {
         spinner.style.display = 'none';
     }
 }
-
-function displayResults(data) {
-    // Show results section
-    document.getElementById('results').style.display = 'block';
-
-    // Display response
-    document.getElementById('response').textContent = data.response;
-
-    // Display context
-    const contextHtml = data.context.map((ctx, index) => `
-        <div class="context-item">
-            <strong>Context ${index + 1} (Score: ${ctx.score.toFixed(4)})</strong>
-            <div class="context-meta">
-                Talk ID: ${ctx.talk_id} | Title: ${ctx.title}
-            </div>
-            <div class="context-chunk">
-                ${ctx.chunk}
-            </div>
-        </div>
-    `).join('');
-    document.getElementById('context').innerHTML = contextHtml;
-
-    // Display prompts
-    document.getElementById('system-prompt').textContent = data.Augmented_prompt.System;
-    document.getElementById('user-prompt').textContent = data.Augmented_prompt.User;
-
-    // Scroll to results
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-}
-
-// Allow Enter key to submit (Shift+Enter for new line)
-document.getElementById('question').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        askQuestion();
-    }
-});
